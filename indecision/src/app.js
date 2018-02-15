@@ -1,6 +1,6 @@
 console.log("App.js is running");
 
-let user = {
+const user = {
   name: "Adam Cobb",
   age: 30,
   location: "San Francisco"
@@ -9,7 +9,7 @@ let user = {
 //only render the subtitle if exists. logical and
 //create a brand new property: options, array of string options.
 
-let displayChunk = {
+const displayChunk = {
   title: "Some annoying title",
   subTitle: "Some annoying other title",
   options: ["Properties", "Sales", "Escrow", "Underwriting"]
@@ -73,7 +73,7 @@ function getAge(age) {
   }
 }
 
-var otherTemplate = (
+const otherTemplate = (
   <div>
     {getName(user.name)}
     {getAge(user.age)}
@@ -81,7 +81,7 @@ var otherTemplate = (
   </div>
 );
 
-var template = (
+const template = (
   <div>
     <h1>{displayChunk.title}</h1>
     {checkSubtitle(displayChunk.subTitle)}
@@ -90,6 +90,6 @@ var template = (
   </div>
 );
 
-var app = document.getElementById("app");
+const app = document.getElementById("app");
 
 ReactDOM.render(template, app);
