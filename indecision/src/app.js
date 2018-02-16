@@ -73,20 +73,48 @@ function getAge(age) {
   }
 }
 
-const otherTemplate = (
+const plusId = 100;
+const minusId = 101;
+const resetId = 102;
+let count = 0;
+
+const addOne = () => {
+  console.log("addOne()");
+  count++;
+};
+
+const minusOne = () => {
+  console.log("minusOne()");
+  count--;
+};
+
+const reset = () => {
+  console.log("reset");
+  count = 0;
+};
+
+const counterTemplate = (
   <div>
-    {getName(user.name)}
-    {getAge(user.age)}
-    {user.location && getLocation(user.location)}
+    <h1>Count: {count}</h1>
+    <button id={plusId} onClick={addOne}>
+      +1
+    </button>
+    <button id={minusId} className="button" onClick={minusOne}>
+      -1
+    </button>
+    <button id={resetId} className="button" onClick={reset}>
+      Reset
+    </button>
   </div>
 );
+console.log(counterTemplate);
 
 const template = (
   <div>
     <h1>{displayChunk.title}</h1>
     {checkSubtitle(displayChunk.subTitle)}
     {checkForOptions(displayChunk.options)}
-    {otherTemplate}
+    {counterTemplate}
   </div>
 );
 

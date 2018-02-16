@@ -101,13 +101,52 @@ function getAge(age) {
   }
 }
 
-var otherTemplate = React.createElement(
+var plusId = 100;
+var minusId = 101;
+var resetId = 102;
+var count = 0;
+
+var addOne = function addOne() {
+  console.log("addOne()");
+  count++;
+};
+
+var minusOne = function minusOne() {
+  console.log("minusOne()");
+  count--;
+};
+
+var reset = function reset() {
+  console.log("reset");
+  count = 0;
+};
+
+var counterTemplate = React.createElement(
   "div",
   null,
-  getName(user.name),
-  getAge(user.age),
-  user.location && getLocation(user.location)
+  React.createElement(
+    "h1",
+    null,
+    "Count: ",
+    count
+  ),
+  React.createElement(
+    "button",
+    { id: plusId, onClick: addOne },
+    "+1"
+  ),
+  React.createElement(
+    "button",
+    { id: minusId, className: "button", onClick: minusOne },
+    "-1"
+  ),
+  React.createElement(
+    "button",
+    { id: resetId, className: "button", onClick: reset },
+    "Reset"
+  )
 );
+console.log(counterTemplate);
 
 var template = React.createElement(
   "div",
@@ -119,7 +158,7 @@ var template = React.createElement(
   ),
   checkSubtitle(displayChunk.subTitle),
   checkForOptions(displayChunk.options),
-  otherTemplate
+  counterTemplate
 );
 
 var app = document.getElementById("app");
