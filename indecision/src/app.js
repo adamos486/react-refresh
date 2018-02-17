@@ -1,54 +1,80 @@
 console.log("App.js is running");
-
-//only render the subtitle if exists. logical and
-//create a brand new property: options, array of string options.
-
-function clickOption(option) {
-  console.log("Option clicked:", option);
-}
-
-const plusId = 100;
-const minusId = 101;
-const resetId = 102;
-let count = 0;
-
-const addOne = () => {
-  console.log("addOne()");
-  count++;
-  renderCounterApp();
+const appInfo = {
+  title: "Indecision",
+  subtitle: "Choose very wisely, or not, I don't care",
+  options: []
 };
 
-const minusOne = () => {
-  console.log("minusOne()");
-  count--;
-  renderCounterApp();
+const checkForChoices = () => {
+  if (appInfo.options && appInfo.options.length > 0) {
+    return <ol>{renderChoiceList()}</ol>;
+  }
 };
 
-const reset = () => {
-  console.log("reset");
-  count = 0;
-  renderCounterApp();
+const makeChoice = option => {
+  console.log("Choosing", option);
+};
+
+const renderChoiceList = () => {
+  return appInfo.options.map((option, index) => {
+    const id = index + option;
+    return (
+      <li
+        key={id}
+        onClick={e => {
+          e.preventDefault();
+          makeChoice(option);
+        }}
+      >
+        {option}
+      </li>
+    );
+  });
+};
+
+const clearAll = event => {
+  event.preventDefault();
+  appInfo.options = [];
+  renderMain();
+};
+
+const renderOptionsForm = () => {
+  return (
+    <form onSubmit={onFormSubmit}>
+      <input type="text" name="option" />
+      <button>Add Option</button>
+    </form>
+  );
+};
+
+const renderClearAll = () => {
+  return (
+    <button onClick={clearAll}>Clear All!</button>
+  );
+};
+
+const onFormSubmit = (event) => {
+  event.preventDefault();
+  const option = event.target.elements.option.value;
+  if (option) {
+    appInfo.options.push(option);
+    event.target.elements.option.value = "";
+    renderMain();
+  }
+};
+
+const renderMain = () => {
+  const choiceUi = (
+    <div>
+      <h1>{appInfo.title}</h1>
+      {appInfo.subtitle && <p>{appInfo.subtitle}</p>}
+      {renderClearAll()}
+      {renderOptionsForm()}
+      {checkForChoices()}
+    </div>
+  );
+  ReactDOM.render(choiceUi, app);
 };
 
 const app = document.getElementById("app");
-
-const renderCounterApp = () => {
-  const counterTemplate = (
-    <div>
-      <h1>Count: {count}</h1>
-      <button id={plusId} onClick={addOne}>
-        +1
-      </button>
-      <button id={minusId} className="button" onClick={minusOne}>
-        -1
-      </button>
-      <button id={resetId} className="button" onClick={reset}>
-        Reset
-      </button>
-    </div>
-  );
-
-  ReactDOM.render(counterTemplate, app);
-};
-
-renderCounterApp();
+renderMain();

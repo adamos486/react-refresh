@@ -1,67 +1,100 @@
 "use strict";
 
 console.log("App.js is running");
-
-//only render the subtitle if exists. logical and
-//create a brand new property: options, array of string options.
-
-function clickOption(option) {
-  console.log("Option clicked:", option);
-}
-
-var plusId = 100;
-var minusId = 101;
-var resetId = 102;
-var count = 0;
-
-var addOne = function addOne() {
-  console.log("addOne()");
-  count++;
-  renderCounterApp();
+var appInfo = {
+  title: "Indecision",
+  subtitle: "Choose very wisely, or not, I don't care",
+  options: []
 };
 
-var minusOne = function minusOne() {
-  console.log("minusOne()");
-  count--;
-  renderCounterApp();
+var checkForChoices = function checkForChoices() {
+  if (appInfo.options && appInfo.options.length > 0) {
+    return React.createElement(
+      "ol",
+      null,
+      renderChoiceList()
+    );
+  }
 };
 
-var reset = function reset() {
-  console.log("reset");
-  count = 0;
-  renderCounterApp();
+var makeChoice = function makeChoice(option) {
+  console.log("Choosing", option);
 };
 
-var app = document.getElementById("app");
+var renderChoiceList = function renderChoiceList() {
+  return appInfo.options.map(function (option, index) {
+    console.log(index + option);
+    return React.createElement(
+      "li",
+      {
+        key: index + option,
+        onClick: function onClick(e) {
+          e.preventDefault();
+          makeChoice(option);
+        }
+      },
+      option
+    );
+  });
+};
 
-var renderCounterApp = function renderCounterApp() {
-  var counterTemplate = React.createElement(
+var clearAll = function clearAll(event) {
+  event.preventDefault();
+  appInfo.options = [];
+  renderMain();
+};
+
+var renderOptionsForm = function renderOptionsForm() {
+  return React.createElement(
+    "form",
+    { onSubmit: onFormSubmit },
+    React.createElement("input", { type: "text", name: "option" }),
+    React.createElement(
+      "button",
+      null,
+      "Add Option"
+    )
+  );
+};
+
+var renderClearAll = function renderClearAll() {
+  return React.createElement(
+    "button",
+    { onClick: clearAll },
+    "Clear All!"
+  );
+};
+
+var onFormSubmit = function onFormSubmit(event) {
+  event.preventDefault();
+  var option = event.target.elements.option.value;
+  if (option) {
+    appInfo.options.push(option);
+    event.target.elements.option.value = "";
+    renderMain();
+  }
+};
+
+var renderMain = function renderMain() {
+  var choiceUi = React.createElement(
     "div",
     null,
     React.createElement(
       "h1",
       null,
-      "Count: ",
-      count
+      appInfo.title
     ),
-    React.createElement(
-      "button",
-      { id: plusId, onClick: addOne },
-      "+1"
+    appInfo.subtitle && React.createElement(
+      "p",
+      null,
+      appInfo.subtitle
     ),
-    React.createElement(
-      "button",
-      { id: minusId, className: "button", onClick: minusOne },
-      "-1"
-    ),
-    React.createElement(
-      "button",
-      { id: resetId, className: "button", onClick: reset },
-      "Reset"
-    )
+    renderClearAll(),
+    renderOptionsForm(),
+    checkForChoices()
   );
-
-  ReactDOM.render(counterTemplate, app);
+  ReactDOM.render(choiceUi, app);
 };
 
-renderCounterApp();
+var app = document.getElementById("app");
+renderMain();
