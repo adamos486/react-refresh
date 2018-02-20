@@ -32,12 +32,12 @@ var Header = function (_React$Component) {
         React.createElement(
           "h1",
           null,
-          appInfo.title
+          this.props.title
         ),
         React.createElement(
           "h3",
           null,
-          appInfo.subtitle
+          this.props.subtitle
         )
       );
     }
@@ -162,7 +162,6 @@ var Option = function (_React$Component4) {
       return React.createElement(
         "li",
         {
-          key: this.props.id,
           onClick: function onClick(e) {
             e.preventDefault();
             _this5.makeChoice(_this5.props.option);
@@ -188,7 +187,7 @@ var ListOptions = function (_React$Component5) {
   _createClass(ListOptions, [{
     key: "checkForChoices",
     value: function checkForChoices() {
-      if (appInfo.options && appInfo.options.length > 0) {
+      if (this.props.options && this.props.options.length > 0) {
         return React.createElement(
           "ol",
           null,
@@ -201,9 +200,9 @@ var ListOptions = function (_React$Component5) {
   }, {
     key: "renderChoiceList",
     value: function renderChoiceList() {
-      return appInfo.options.map(function (option, index) {
+      return this.props.options.map(function (option, index) {
         var id = index + option;
-        return React.createElement(Option, { key: id, id: id, option: option });
+        return React.createElement(Option, { key: id, option: option });
       });
     }
   }, {
@@ -227,14 +226,26 @@ var IndecisionApp = function (_React$Component6) {
 
   _createClass(IndecisionApp, [{
     key: "render",
+
+    // options: ["One", "Two"];
+
     value: function render() {
+      var title = "Indecision";
+      var subtitle = "I don't care about you.";
+      var options = ["Harry Potter", "Star Wars"];
       return React.createElement(
         "div",
         null,
-        React.createElement(Header, null),
-        React.createElement(ManipOptions, null),
-        React.createElement(EnterOptions, null),
-        React.createElement(ListOptions, null)
+        React.createElement(Header, { title: title, subtitle: subtitle }),
+        React.createElement(ManipOptions, {
+          options: options
+        }),
+        React.createElement(EnterOptions, {
+          options: options
+        }),
+        React.createElement(ListOptions, {
+          options: options
+        })
       );
     }
   }]);

@@ -8,8 +8,8 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <h1>{appInfo.title}</h1>
-        <h3>{appInfo.subtitle}</h3>
+        <h1>{this.props.title}</h1>
+        <h3>{this.props.subtitle}</h3>
       </div>
     );
   }
@@ -74,7 +74,6 @@ class Option extends React.Component {
   render() {
     return (
       <li
-        key={this.props.id}
         onClick={e => {
           e.preventDefault();
           this.makeChoice(this.props.option);
@@ -88,7 +87,7 @@ class Option extends React.Component {
 
 class ListOptions extends React.Component {
   checkForChoices() {
-    if (appInfo.options && appInfo.options.length > 0) {
+    if (this.props.options && this.props.options.length > 0) {
       return <ol>{this.renderChoiceList()}</ol>;
     } else {
       return <div />;
@@ -96,9 +95,9 @@ class ListOptions extends React.Component {
   }
 
   renderChoiceList() {
-    return appInfo.options.map((option, index) => {
+    return this.props.options.map((option, index) => {
       const id = index + option;
-      return <Option key={id} id={id} option={option} />;
+      return <Option key={id} option={option} />;
     });
   }
 
@@ -108,13 +107,24 @@ class ListOptions extends React.Component {
 }
 
 class IndecisionApp extends React.Component {
+  // options: ["One", "Two"];
+
   render() {
+    const title = "Indecision";
+    const subtitle = "I don't care about you.";
+    const options = ["Harry Potter", "Star Wars"];
     return (
       <div>
-        <Header />
-        <ManipOptions />
-        <EnterOptions />
-        <ListOptions />
+        <Header title={title} subtitle={subtitle} />
+        <ManipOptions
+          options={options}
+        />
+        <EnterOptions
+          options={options}
+        />
+        <ListOptions
+          options={options}
+        />
       </div>
     );
   }
