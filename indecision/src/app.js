@@ -45,9 +45,9 @@ class ManipOptions extends React.Component {
 }
 
 class EnterOptions extends React.Component {
-  onFormSubmit(event) {
+  handleAddOption(event) {
     event.preventDefault();
-    const option = event.target.elements.option.value;
+    const option = event.target.elements.option.value.trim();
     console.log("Adding new option:", option);
     if (option) {
       appInfo.options.push(option);
@@ -58,7 +58,7 @@ class EnterOptions extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onFormSubmit}>
+      <form onSubmit={this.handleAddOption}>
         <input type="text" name="option" />
         <button>Add Option</button>
       </form>
@@ -116,15 +116,9 @@ class IndecisionApp extends React.Component {
     return (
       <div>
         <Header title={title} subtitle={subtitle} />
-        <ManipOptions
-          options={options}
-        />
-        <EnterOptions
-          options={options}
-        />
-        <ListOptions
-          options={options}
-        />
+        <ManipOptions options={options} />
+        <EnterOptions options={options} />
+        <ListOptions options={options} />
       </div>
     );
   }

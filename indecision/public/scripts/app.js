@@ -110,10 +110,10 @@ var EnterOptions = function (_React$Component3) {
   }
 
   _createClass(EnterOptions, [{
-    key: "onFormSubmit",
-    value: function onFormSubmit(event) {
+    key: "handleAddOption",
+    value: function handleAddOption(event) {
       event.preventDefault();
-      var option = event.target.elements.option.value;
+      var option = event.target.elements.option.value.trim();
       console.log("Adding new option:", option);
       if (option) {
         appInfo.options.push(option);
@@ -126,7 +126,7 @@ var EnterOptions = function (_React$Component3) {
     value: function render() {
       return React.createElement(
         "form",
-        { onSubmit: this.onFormSubmit },
+        { onSubmit: this.handleAddOption },
         React.createElement("input", { type: "text", name: "option" }),
         React.createElement(
           "button",
@@ -237,15 +237,9 @@ var IndecisionApp = function (_React$Component6) {
         "div",
         null,
         React.createElement(Header, { title: title, subtitle: subtitle }),
-        React.createElement(ManipOptions, {
-          options: options
-        }),
-        React.createElement(EnterOptions, {
-          options: options
-        }),
-        React.createElement(ListOptions, {
-          options: options
-        })
+        React.createElement(ManipOptions, { options: options }),
+        React.createElement(EnterOptions, { options: options }),
+        React.createElement(ListOptions, { options: options })
       );
     }
   }]);
