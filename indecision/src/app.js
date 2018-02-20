@@ -16,8 +16,13 @@ class Header extends React.Component {
 }
 
 class ManipOptions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.clearAll = this.clearAll.bind(this);
+  }
+
   clearAll() {
-    appInfo.options = [];
+    console.log(this.props.options);
     masterRender();
   }
 
@@ -50,7 +55,7 @@ class EnterOptions extends React.Component {
     const option = event.target.elements.option.value.trim();
     console.log("Adding new option:", option);
     if (option) {
-      appInfo.options.push(option);
+      this.props.options.push(option);
       event.target.elements.option.value = "";
       masterRender();
     }
@@ -58,7 +63,7 @@ class EnterOptions extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleAddOption}>
+      <form onSubmit={this.handleAddOption.bind(this)}>
         <input type="text" name="option" />
         <button>Add Option</button>
       </form>

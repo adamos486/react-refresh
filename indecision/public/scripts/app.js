@@ -49,16 +49,19 @@ var Header = function (_React$Component) {
 var ManipOptions = function (_React$Component2) {
   _inherits(ManipOptions, _React$Component2);
 
-  function ManipOptions() {
+  function ManipOptions(props) {
     _classCallCheck(this, ManipOptions);
 
-    return _possibleConstructorReturn(this, (ManipOptions.__proto__ || Object.getPrototypeOf(ManipOptions)).apply(this, arguments));
+    var _this2 = _possibleConstructorReturn(this, (ManipOptions.__proto__ || Object.getPrototypeOf(ManipOptions)).call(this, props));
+
+    _this2.clearAll = _this2.clearAll.bind(_this2);
+    return _this2;
   }
 
   _createClass(ManipOptions, [{
     key: "clearAll",
     value: function clearAll() {
-      appInfo.options = [];
+      console.log(this.props.options);
       masterRender();
     }
   }, {
@@ -116,7 +119,7 @@ var EnterOptions = function (_React$Component3) {
       var option = event.target.elements.option.value.trim();
       console.log("Adding new option:", option);
       if (option) {
-        appInfo.options.push(option);
+        this.props.options.push(option);
         event.target.elements.option.value = "";
         masterRender();
       }
@@ -126,7 +129,7 @@ var EnterOptions = function (_React$Component3) {
     value: function render() {
       return React.createElement(
         "form",
-        { onSubmit: this.handleAddOption },
+        { onSubmit: this.handleAddOption.bind(this) },
         React.createElement("input", { type: "text", name: "option" }),
         React.createElement(
           "button",
