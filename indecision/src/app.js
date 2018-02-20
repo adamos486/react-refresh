@@ -18,6 +18,7 @@ class Header extends React.Component {
 class ManipOptions extends React.Component {
   clearAll() {
     appInfo.options = [];
+    masterRender();
   }
 
   chooseRandom() {
@@ -65,50 +66,61 @@ class EnterOptions extends React.Component {
   }
 }
 
+class Option extends React.Component {
+  makeChoice(option) {
+    console.log("Choosing", option);
+  }
+
+  render() {
+    return (
+      <li
+        key={this.props.id}
+        onClick={e => {
+          e.preventDefault();
+          this.makeChoice(this.props.option);
+        }}
+      >
+        {this.props.option}
+      </li>
+    );
+  }
+}
+
 class ListOptions extends React.Component {
   checkForChoices() {
     if (appInfo.options && appInfo.options.length > 0) {
       return <ol>{this.renderChoiceList()}</ol>;
     } else {
-      return <div />
+      return <div />;
     }
   }
 
   renderChoiceList() {
     return appInfo.options.map((option, index) => {
       const id = index + option;
-      return (
-        <li
-          key={id}
-          onClick={e => {
-            e.preventDefault();
-            makeChoice(option);
-          }}
-        >
-          {option}
-        </li>
-      );
+      return <Option key={id} id={id} option={option} />;
     });
   }
 
   render() {
-    return (this.checkForChoices());
+    return this.checkForChoices();
+  }
+}
+
+class IndecisionApp extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <ManipOptions />
+        <EnterOptions />
+        <ListOptions />
+      </div>
+    );
   }
 }
 
 const masterRender = () => {
-  const jsx = (
-    <div>
-      <Header />
-      <ManipOptions />
-      <EnterOptions />
-      <ListOptions />
-    </div>
-  );
-
-  ReactDOM.render(jsx, document.getElementById("app"));
+  ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
 };
 masterRender();
-
-
-

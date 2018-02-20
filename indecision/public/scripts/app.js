@@ -59,6 +59,7 @@ var ManipOptions = function (_React$Component2) {
     key: "clearAll",
     value: function clearAll() {
       appInfo.options = [];
+      masterRender();
     }
   }, {
     key: "chooseRandom",
@@ -139,8 +140,44 @@ var EnterOptions = function (_React$Component3) {
   return EnterOptions;
 }(React.Component);
 
-var ListOptions = function (_React$Component4) {
-  _inherits(ListOptions, _React$Component4);
+var Option = function (_React$Component4) {
+  _inherits(Option, _React$Component4);
+
+  function Option() {
+    _classCallCheck(this, Option);
+
+    return _possibleConstructorReturn(this, (Option.__proto__ || Object.getPrototypeOf(Option)).apply(this, arguments));
+  }
+
+  _createClass(Option, [{
+    key: "makeChoice",
+    value: function makeChoice(option) {
+      console.log("Choosing", option);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this5 = this;
+
+      return React.createElement(
+        "li",
+        {
+          key: this.props.id,
+          onClick: function onClick(e) {
+            e.preventDefault();
+            _this5.makeChoice(_this5.props.option);
+          }
+        },
+        this.props.option
+      );
+    }
+  }]);
+
+  return Option;
+}(React.Component);
+
+var ListOptions = function (_React$Component5) {
+  _inherits(ListOptions, _React$Component5);
 
   function ListOptions() {
     _classCallCheck(this, ListOptions);
@@ -166,17 +203,7 @@ var ListOptions = function (_React$Component4) {
     value: function renderChoiceList() {
       return appInfo.options.map(function (option, index) {
         var id = index + option;
-        return React.createElement(
-          "li",
-          {
-            key: id,
-            onClick: function onClick(e) {
-              e.preventDefault();
-              makeChoice(option);
-            }
-          },
-          option
-        );
+        return React.createElement(Option, { key: id, id: id, option: option });
       });
     }
   }, {
@@ -189,16 +216,33 @@ var ListOptions = function (_React$Component4) {
   return ListOptions;
 }(React.Component);
 
-var masterRender = function masterRender() {
-  var jsx = React.createElement(
-    "div",
-    null,
-    React.createElement(Header, null),
-    React.createElement(ManipOptions, null),
-    React.createElement(EnterOptions, null),
-    React.createElement(ListOptions, null)
-  );
+var IndecisionApp = function (_React$Component6) {
+  _inherits(IndecisionApp, _React$Component6);
 
-  ReactDOM.render(jsx, document.getElementById("app"));
+  function IndecisionApp() {
+    _classCallCheck(this, IndecisionApp);
+
+    return _possibleConstructorReturn(this, (IndecisionApp.__proto__ || Object.getPrototypeOf(IndecisionApp)).apply(this, arguments));
+  }
+
+  _createClass(IndecisionApp, [{
+    key: "render",
+    value: function render() {
+      return React.createElement(
+        "div",
+        null,
+        React.createElement(Header, null),
+        React.createElement(ManipOptions, null),
+        React.createElement(EnterOptions, null),
+        React.createElement(ListOptions, null)
+      );
+    }
+  }]);
+
+  return IndecisionApp;
+}(React.Component);
+
+var masterRender = function masterRender() {
+  ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById("app"));
 };
 masterRender();
