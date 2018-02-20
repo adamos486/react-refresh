@@ -23,11 +23,11 @@ var makeChoice = function makeChoice(option) {
 
 var renderChoiceList = function renderChoiceList() {
   return appInfo.options.map(function (option, index) {
-    console.log(index + option);
+    var id = index + option;
     return React.createElement(
       "li",
       {
-        key: index + option,
+        key: id,
         onClick: function onClick(e) {
           e.preventDefault();
           makeChoice(option);
@@ -42,6 +42,11 @@ var clearAll = function clearAll(event) {
   event.preventDefault();
   appInfo.options = [];
   renderMain();
+};
+
+var chooseRandom = function chooseRandom() {
+  var randomNum = Math.random();
+  console.log(randomNum);
 };
 
 var renderOptionsForm = function renderOptionsForm() {
@@ -63,6 +68,48 @@ var renderClearAll = function renderClearAll() {
     { onClick: clearAll },
     "Clear All!"
   );
+};
+
+var renderRandomChoice = function renderRandomChoice() {
+  return React.createElement(
+    "button",
+    { onClick: chooseRandom },
+    "Choose For Me"
+  );
+};
+
+var shouldShow = false;
+var renderToggleVisibility = function renderToggleVisibility() {
+  if (shouldShow) {
+    return React.createElement(
+      "div",
+      null,
+      renderClearAll(),
+      renderRandomChoice(),
+      renderOptionsForm(),
+      checkForChoices(),
+      React.createElement(
+        "button",
+        { onClick: changeShow },
+        "Hide Options"
+      )
+    );
+  } else {
+    return React.createElement(
+      "button",
+      { onClick: changeShow },
+      "Show Options"
+    );
+  }
+};
+
+var changeShow = function changeShow() {
+  if (shouldShow) {
+    shouldShow = false;
+  } else {
+    shouldShow = true;
+  }
+  renderMain();
 };
 
 var onFormSubmit = function onFormSubmit(event) {
@@ -89,9 +136,7 @@ var renderMain = function renderMain() {
       null,
       appInfo.subtitle
     ),
-    renderClearAll(),
-    renderOptionsForm(),
-    checkForChoices()
+    renderToggleVisibility()
   );
   ReactDOM.render(choiceUi, app);
 };

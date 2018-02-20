@@ -38,6 +38,11 @@ const clearAll = event => {
   renderMain();
 };
 
+const chooseRandom = () => {
+  const randomNum = Math.random();
+  console.log(randomNum);
+};
+
 const renderOptionsForm = () => {
   return (
     <form onSubmit={onFormSubmit}>
@@ -48,12 +53,40 @@ const renderOptionsForm = () => {
 };
 
 const renderClearAll = () => {
-  return (
-    <button onClick={clearAll}>Clear All!</button>
-  );
+  return <button onClick={clearAll}>Clear All!</button>;
 };
 
-const onFormSubmit = (event) => {
+const renderRandomChoice = () => {
+  return <button onClick={chooseRandom}>Choose For Me</button>
+};
+
+let shouldShow = false;
+const renderToggleVisibility = () => {
+  if (shouldShow) {
+    return (
+      <div>
+        {renderClearAll()}
+        {renderRandomChoice()}
+        {renderOptionsForm()}
+        {checkForChoices()}
+        <button onClick={changeShow}>Hide Options</button>
+      </div>
+    );
+  } else {
+    return <button onClick={changeShow}>Show Options</button>
+  }
+};
+
+const changeShow = () => {
+  if (shouldShow) {
+    shouldShow = false;
+  } else {
+    shouldShow = true;
+  }
+  renderMain();
+};
+
+const onFormSubmit = event => {
   event.preventDefault();
   const option = event.target.elements.option.value;
   if (option) {
@@ -68,9 +101,7 @@ const renderMain = () => {
     <div>
       <h1>{appInfo.title}</h1>
       {appInfo.subtitle && <p>{appInfo.subtitle}</p>}
-      {renderClearAll()}
-      {renderOptionsForm()}
-      {checkForChoices()}
+      {renderToggleVisibility()}
     </div>
   );
   ReactDOM.render(choiceUi, app);
