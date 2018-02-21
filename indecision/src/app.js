@@ -1,9 +1,3 @@
-const appInfo = {
-  title: "Indecision",
-  subtitle: "Choose very wisely, or not, I don't care",
-  options: ["Garfield", "Ghostbusters"]
-};
-
 class Header extends React.Component {
   render() {
     return (
@@ -22,8 +16,7 @@ class ManipOptions extends React.Component {
   }
 
   clearAll() {
-    console.log(this.props.options);
-    masterRender();
+    this.props.clear();
   }
 
   chooseRandom() {
@@ -50,14 +43,18 @@ class ManipOptions extends React.Component {
 }
 
 class EnterOptions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleAddOption = this.handleAddOption.bind(this);
+  }
+
   handleAddOption(event) {
     event.preventDefault();
     const option = event.target.elements.option.value.trim();
     console.log("Adding new option:", option);
     if (option) {
-      this.props.options.push(option);
       event.target.elements.option.value = "";
-      masterRender();
+      this.props.add(option);
     }
   }
 
@@ -113,17 +110,66 @@ class ListOptions extends React.Component {
 
 class IndecisionApp extends React.Component {
   // options: ["One", "Two"];
+  constructor(props) {
+    super(props);
+    this.state = {
+      options: ["Harry Potter", "Star Wars"],
+      isVisible: true,
+      title: "Indecision",
+      subtitle: "I don't care about you."
+    };
+    this.addOption = this.addOption.bind(this);
+    this.clearOptions = this.clearOptions.bind(this);
+    this.toggleVisible = this.toggleVisible.bind(this);
+    this.shouldShow = this.shouldShow.bind(this);
+  }
+
+  addOption(option) {
+    this.setState(prevState => {
+      let newOptions = prevState.options;
+      newOptions.push(option);
+      return {
+        options: newOptions
+      };
+    });
+  }
+
+  clearOptions() {
+    this.setState(() => {
+      return {
+        options: []
+      }
+    });
+  }
+
+  toggleVisible() {
+    this.setState((prevState) => {
+      return {
+        isVisible: !prevState.isVisible
+      }
+    })
+  }
+
+  shouldShow() {
+    if (this.state.isVisible) {
+      return (
+        <div>
+          <ManipOptions options={this.state.options} clear={this.clearOptions} />
+          <EnterOptions options={this.state.options} add={this.addOption} />
+          <ListOptions options={this.state.options} />
+          <button onClick={this.toggleVisible}>Hide</button>
+        </div>
+      );
+    } else {
+      return (<div><button onClick={this.toggleVisible}>Show</button></div>);
+    }
+  }
 
   render() {
-    const title = "Indecision";
-    const subtitle = "I don't care about you.";
-    const options = ["Harry Potter", "Star Wars"];
     return (
       <div>
-        <Header title={title} subtitle={subtitle} />
-        <ManipOptions options={options} />
-        <EnterOptions options={options} />
-        <ListOptions options={options} />
+        <Header title={this.state.title} subtitle={this.state.subtitle} />
+        {this.shouldShow()}
       </div>
     );
   }

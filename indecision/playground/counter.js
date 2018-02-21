@@ -53,7 +53,7 @@ class Counter extends React.Component {
     this.subtractOneFromCount = this.subtractOneFromCount.bind(this);
     this.resetCount = this.resetCount.bind(this);
     this.state = {
-      count: 0
+      count: 0,
     };
   }
 
