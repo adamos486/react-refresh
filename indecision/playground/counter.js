@@ -45,7 +45,6 @@
 // };
 //
 // renderCounterApp();
-let count = 0;
 
 class Counter extends React.Component {
   constructor(props) {
@@ -53,27 +52,39 @@ class Counter extends React.Component {
     this.addOneToCount = this.addOneToCount.bind(this);
     this.subtractOneFromCount = this.subtractOneFromCount.bind(this);
     this.resetCount = this.resetCount.bind(this);
+    this.state = {
+      count: 0
+    };
   }
 
   addOneToCount() {
-    count++;
-    console.log(count);
+    this.setState((prevState) => {
+      return {
+        count: prevState.count+1
+      }
+    });
   }
 
   subtractOneFromCount() {
-    count--;
-    console.log(count);
+    this.setState((prevState) => {
+      return {
+        count: prevState.count-1
+      }
+    });
   }
 
   resetCount() {
-    count = 0;
-    console.log(count);
+    this.setState(() => {
+      return {
+        count: 0
+      }
+    });
   }
 
   render() {
     return (
       <div>
-        <h1>Count: </h1>
+        <h1>Count: {this.state.count}</h1>
         <button onClick={this.addOneToCount}>+1</button>
         <button onClick={this.subtractOneFromCount}>-1</button>
         <button onClick={this.resetCount}>reset</button>

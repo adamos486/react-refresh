@@ -55,7 +55,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // };
 //
 // renderCounterApp();
-var count = 0;
 
 var Counter = function (_React$Component) {
   _inherits(Counter, _React$Component);
@@ -68,26 +67,38 @@ var Counter = function (_React$Component) {
     _this.addOneToCount = _this.addOneToCount.bind(_this);
     _this.subtractOneFromCount = _this.subtractOneFromCount.bind(_this);
     _this.resetCount = _this.resetCount.bind(_this);
+    _this.state = {
+      count: 0
+    };
     return _this;
   }
 
   _createClass(Counter, [{
     key: "addOneToCount",
     value: function addOneToCount() {
-      count++;
-      console.log(count);
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count + 1
+        };
+      });
     }
   }, {
     key: "subtractOneFromCount",
     value: function subtractOneFromCount() {
-      count--;
-      console.log(count);
+      this.setState(function (prevState) {
+        return {
+          count: prevState.count - 1
+        };
+      });
     }
   }, {
     key: "resetCount",
     value: function resetCount() {
-      count = 0;
-      console.log(count);
+      this.setState(function () {
+        return {
+          count: 0
+        };
+      });
     }
   }, {
     key: "render",
@@ -98,7 +109,8 @@ var Counter = function (_React$Component) {
         React.createElement(
           "h1",
           null,
-          "Count: "
+          "Count: ",
+          this.state.count
         ),
         React.createElement(
           "button",
