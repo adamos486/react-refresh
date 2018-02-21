@@ -1,4 +1,4 @@
-import IndecisionApp from "../src/app.js";
+import IndecisionApp from "../src/foundation/IndecisionApp.js";
 import React from "react";
 import { shallow, mount, render } from "enzyme";
 import util from "util";;
