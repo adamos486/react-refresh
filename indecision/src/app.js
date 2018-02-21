@@ -1,3 +1,5 @@
+import React from 'react';
+
 class Header extends React.Component {
   render() {
     return (
@@ -25,11 +27,19 @@ class ManipOptions extends React.Component {
   }
 
   renderRandomChoice() {
-    return <button onClick={this.chooseRandom}>Choose For Me</button>;
+    return (
+      <button onClick={this.chooseRandom} disabled={!this.props.hasOptions}>
+        Choose For Me
+      </button>
+    );
   }
 
   renderClearAll() {
-    return <button onClick={this.clearAll}>Clear All!</button>;
+    return (
+      <button onClick={this.clearAll} disabled={!this.props.hasOptions}>
+        Clear All!
+      </button>
+    );
   }
 
   render() {
@@ -108,7 +118,7 @@ class ListOptions extends React.Component {
   }
 }
 
-class IndecisionApp extends React.Component {
+export default class IndecisionApp extends React.Component {
   // options: ["One", "Two"];
   constructor(props) {
     super(props);
@@ -138,30 +148,38 @@ class IndecisionApp extends React.Component {
     this.setState(() => {
       return {
         options: []
-      }
+      };
     });
   }
 
   toggleVisible() {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
         isVisible: !prevState.isVisible
-      }
-    })
+      };
+    });
   }
 
   shouldShow() {
     if (this.state.isVisible) {
       return (
         <div>
-          <ManipOptions options={this.state.options} clear={this.clearOptions} />
+          <ManipOptions
+            options={this.state.options}
+            clear={this.clearOptions}
+            hasOptions={this.state.options.length > 0}
+          />
           <EnterOptions options={this.state.options} add={this.addOption} />
           <ListOptions options={this.state.options} />
           <button onClick={this.toggleVisible}>Hide</button>
         </div>
       );
     } else {
-      return (<div><button onClick={this.toggleVisible}>Show</button></div>);
+      return (
+        <div>
+          <button onClick={this.toggleVisible}>Show</button>
+        </div>
+      );
     }
   }
 
@@ -174,8 +192,3 @@ class IndecisionApp extends React.Component {
     );
   }
 }
-
-const masterRender = () => {
-  ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
-};
-masterRender();

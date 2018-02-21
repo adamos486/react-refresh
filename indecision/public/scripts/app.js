@@ -1,6 +1,16 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20,15 +30,15 @@ var Header = function (_React$Component) {
   _createClass(Header, [{
     key: "render",
     value: function render() {
-      return React.createElement(
+      return _react2.default.createElement(
         "div",
         null,
-        React.createElement(
+        _react2.default.createElement(
           "h1",
           null,
           this.props.title
         ),
-        React.createElement(
+        _react2.default.createElement(
           "h3",
           null,
           this.props.subtitle
@@ -38,7 +48,7 @@ var Header = function (_React$Component) {
   }]);
 
   return Header;
-}(React.Component);
+}(_react2.default.Component);
 
 var ManipOptions = function (_React$Component2) {
   _inherits(ManipOptions, _React$Component2);
@@ -66,25 +76,25 @@ var ManipOptions = function (_React$Component2) {
   }, {
     key: "renderRandomChoice",
     value: function renderRandomChoice() {
-      return React.createElement(
+      return _react2.default.createElement(
         "button",
-        { onClick: this.chooseRandom },
+        { onClick: this.chooseRandom, disabled: !this.props.hasOptions },
         "Choose For Me"
       );
     }
   }, {
     key: "renderClearAll",
     value: function renderClearAll() {
-      return React.createElement(
+      return _react2.default.createElement(
         "button",
-        { onClick: this.clearAll },
+        { onClick: this.clearAll, disabled: !this.props.hasOptions },
         "Clear All!"
       );
     }
   }, {
     key: "render",
     value: function render() {
-      return React.createElement(
+      return _react2.default.createElement(
         "div",
         null,
         this.renderClearAll(),
@@ -94,7 +104,7 @@ var ManipOptions = function (_React$Component2) {
   }]);
 
   return ManipOptions;
-}(React.Component);
+}(_react2.default.Component);
 
 var EnterOptions = function (_React$Component3) {
   _inherits(EnterOptions, _React$Component3);
@@ -122,11 +132,11 @@ var EnterOptions = function (_React$Component3) {
   }, {
     key: "render",
     value: function render() {
-      return React.createElement(
+      return _react2.default.createElement(
         "form",
         { onSubmit: this.handleAddOption.bind(this) },
-        React.createElement("input", { type: "text", name: "option" }),
-        React.createElement(
+        _react2.default.createElement("input", { type: "text", name: "option" }),
+        _react2.default.createElement(
           "button",
           null,
           "Add Option"
@@ -136,7 +146,7 @@ var EnterOptions = function (_React$Component3) {
   }]);
 
   return EnterOptions;
-}(React.Component);
+}(_react2.default.Component);
 
 var Option = function (_React$Component4) {
   _inherits(Option, _React$Component4);
@@ -157,7 +167,7 @@ var Option = function (_React$Component4) {
     value: function render() {
       var _this5 = this;
 
-      return React.createElement(
+      return _react2.default.createElement(
         "li",
         {
           onClick: function onClick(e) {
@@ -171,7 +181,7 @@ var Option = function (_React$Component4) {
   }]);
 
   return Option;
-}(React.Component);
+}(_react2.default.Component);
 
 var ListOptions = function (_React$Component5) {
   _inherits(ListOptions, _React$Component5);
@@ -186,13 +196,13 @@ var ListOptions = function (_React$Component5) {
     key: "checkForChoices",
     value: function checkForChoices() {
       if (this.props.options && this.props.options.length > 0) {
-        return React.createElement(
+        return _react2.default.createElement(
           "ol",
           null,
           this.renderChoiceList()
         );
       } else {
-        return React.createElement("div", null);
+        return _react2.default.createElement("div", null);
       }
     }
   }, {
@@ -200,7 +210,7 @@ var ListOptions = function (_React$Component5) {
     value: function renderChoiceList() {
       return this.props.options.map(function (option, index) {
         var id = index + option;
-        return React.createElement(Option, { key: id, option: option });
+        return _react2.default.createElement(Option, { key: id, option: option });
       });
     }
   }, {
@@ -211,7 +221,7 @@ var ListOptions = function (_React$Component5) {
   }]);
 
   return ListOptions;
-}(React.Component);
+}(_react2.default.Component);
 
 var IndecisionApp = function (_React$Component6) {
   _inherits(IndecisionApp, _React$Component6);
@@ -268,23 +278,27 @@ var IndecisionApp = function (_React$Component6) {
     key: "shouldShow",
     value: function shouldShow() {
       if (this.state.isVisible) {
-        return React.createElement(
+        return _react2.default.createElement(
           "div",
           null,
-          React.createElement(ManipOptions, { options: this.state.options, clear: this.clearOptions }),
-          React.createElement(EnterOptions, { options: this.state.options, add: this.addOption }),
-          React.createElement(ListOptions, { options: this.state.options }),
-          React.createElement(
+          _react2.default.createElement(ManipOptions, {
+            options: this.state.options,
+            clear: this.clearOptions,
+            hasOptions: this.state.options.length > 0
+          }),
+          _react2.default.createElement(EnterOptions, { options: this.state.options, add: this.addOption }),
+          _react2.default.createElement(ListOptions, { options: this.state.options }),
+          _react2.default.createElement(
             "button",
             { onClick: this.toggleVisible },
             "Hide"
           )
         );
       } else {
-        return React.createElement(
+        return _react2.default.createElement(
           "div",
           null,
-          React.createElement(
+          _react2.default.createElement(
             "button",
             { onClick: this.toggleVisible },
             "Show"
@@ -295,19 +309,16 @@ var IndecisionApp = function (_React$Component6) {
   }, {
     key: "render",
     value: function render() {
-      return React.createElement(
+      return _react2.default.createElement(
         "div",
         null,
-        React.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
+        _react2.default.createElement(Header, { title: this.state.title, subtitle: this.state.subtitle }),
         this.shouldShow()
       );
     }
   }]);
 
   return IndecisionApp;
-}(React.Component);
+}(_react2.default.Component);
 
-var masterRender = function masterRender() {
-  ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById("app"));
-};
-masterRender();
+exports.default = IndecisionApp;
