@@ -1,6 +1,6 @@
 start:
-  @yarn start
+	@yarn start
 deploy:
-  @yarn build && cf push --random-route
+	@yarn build && cf push --random-route
 tests:
-  @./node_modules/.bin/mocha
+	@./node_modules/.bin/mocha

@@ -1,0 +1,11 @@
+import React from "react";
+global.React = React;
+import expect from "expect";
+global.expect = expect;
+import { sinon, spy } from "sinon";
+global.sinon = sinon;
+global.spy = spy;
+import { mount, render, shallow } from "enzyme";
+global.mount = mount;
+global.render = render;
+global.shallow = shallow;
